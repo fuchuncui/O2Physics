@@ -49,7 +49,7 @@ using namespace o2;
 using namespace o2::framework;
 using namespace o2::framework::expressions;
 
-#define O2_DEFINE_CONFIGURABLE(NAME, TYPE, DEFAULT, HELP) Configurable<TYPE> NAME{ #NAME, DEFAULT, HELP };
+#define O2_DEFINE_CONFIGURABLE(NAME, TYPE, DEFAULT, HELP) Configurable<TYPE> NAME{#NAME, DEFAULT, HELP};
 
 struct FlowGFWPbPb {
 
@@ -65,25 +65,25 @@ struct FlowGFWPbPb {
   O2_DEFINE_CONFIGURABLE(cfgEfficiency, std::string, "", "CCDB path to efficiency object")
   O2_DEFINE_CONFIGURABLE(cfgAcceptance, std::string, "", "CCDB path to acceptance object")
 
-  ConfigurableAxis axisVertex{ "axisVertex", { 20, -10, 10 }, "vertex axis for histograms" };
-  ConfigurableAxis axisPhi{ "axisPhi", { 60, 0.0, constants::math::TwoPI }, "phi axis for histograms" };
-  ConfigurableAxis axisEta{ "axisEta", { 40, -1., 1. }, "eta axis for histograms" };
+  ConfigurableAxis axisVertex{"axisVertex", {20, -10, 10}, "vertex axis for histograms"};
+  ConfigurableAxis axisPhi{"axisPhi", {60, 0.0, constants::math::TwoPI}, "phi axis for histograms"};
+  ConfigurableAxis axisEta{"axisEta", {40, -1., 1.}, "eta axis for histograms"};
   // ConfigurableAxis axisPt{"axisPt", {VARIABLE_WIDTH, 0.2, 0.25, 0.30, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.00, 1.10, 1.20, 1.30, 1.40, 1.50, 1.60, 1.70, 1.80, 1.90, 2.00, 2.20, 2.40, 2.60, 2.80, 3.00}, "pt axis for histograms"};
   // ConfigurableAxis axisPt{"axisPt", {0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.00, 1.10, 1.20, 1.30, 1.40, 1.50, 1.60, 1.70, 1.80, 1.90, 2.00, 2.20, 2.40, 2.60, 2.80, 3.00}, "pt axis for histograms"};
   // ConfigurableAxis axisPt{"axisPt", {0.01, 0.1, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.00, 1.10, 1.20, 1.30, 1.40, 1.50, 1.60, 1.70, 1.80, 1.90, 2.00, 2.10, 2.20, 2.30, 2.40, 2.50, 2.60, 2.70, 2.80, 2.90, 3.00}, "pt axis for histograms"};
   // ConfigurableAxis axisMultiplicity{"axisMultiplicity", {VARIABLE_WIDTH, 0, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90}, "centrality axis for histograms"};
 
-  Configurable<std::vector<float>> vecwacc{ "vecwacc", std::vector<float>{ 0.879543, 0.893808, 0.993375, 1.09663, 0.983883, 0.984094, 1.11362, 0.963896, 0.911212, 1.02934, 1.00295, 0.950711, 0.996856, 1.11934, 0.993665, 0.99087, 1.11915, 1.0198, 0.966849, 1.03237, 0.989367, 0.948312, 0.970883, 0.984305, 0.920335, 0.929722, 1.07467, 1.00862, 0.977185, 0.870868, 1.06552, 0.962393, 1.01025, 1.09959, 0.984226, 0.986361, 1.0931, 0.994377, 0.976051, 1.05249, 0.995538, 0.886452, 0.936763, 0.993613, 0.94491, 0.966559, 1.10829, 1.01998, 0.991503, 1.07918, 1.05655, 0.973784, 1.00914, 1.11678, 1.00092, 0.95232, 1.09814, 1.02322, 0.958543, 0.947231 }, "wacc in phi bins" };
-  AxisSpec axisPt{ { 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.00, 1.10, 1.20, 1.30, 1.40, 1.50, 1.60, 1.70, 1.80, 1.90, 2.00, 2.20, 2.40, 2.60, 2.80, 3.00, 3.50, 4.00, 4.50, 5.00, 5.50, 6.00, 7.00, 8.00, 9.00, 10.0 }, "pt(GeV)" };
-  AxisSpec axisMultiplicity{ { 0, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90 }, "Centrality (%)" };
-  AxisSpec axisOmegaminusMass{ { 1.63, 1.635, 1.64, 1.645, 1.65, 1.655, 1.66, 1.665, 1.67, 1.675, 1.68, 1.685, 1.69, 1.695, 1.7, 1.705, 1.71 }, "Mass(GeV)" };
-  AxisSpec axisXiminusMass{ { 1.3, 1.305, 1.31, 1.315, 1.32, 1.325, 1.33, 1.335, 1.34, 1.345, 1.35, 1.355, 1.36, 1.365, 1.37 }, "Mass(GeV)" };
+  Configurable<std::vector<float>> vecwacc{"vecwacc", std::vector<float>{0.879543, 0.893808, 0.993375, 1.09663, 0.983883, 0.984094, 1.11362, 0.963896, 0.911212, 1.02934, 1.00295, 0.950711, 0.996856, 1.11934, 0.993665, 0.99087, 1.11915, 1.0198, 0.966849, 1.03237, 0.989367, 0.948312, 0.970883, 0.984305, 0.920335, 0.929722, 1.07467, 1.00862, 0.977185, 0.870868, 1.06552, 0.962393, 1.01025, 1.09959, 0.984226, 0.986361, 1.0931, 0.994377, 0.976051, 1.05249, 0.995538, 0.886452, 0.936763, 0.993613, 0.94491, 0.966559, 1.10829, 1.01998, 0.991503, 1.07918, 1.05655, 0.973784, 1.00914, 1.11678, 1.00092, 0.95232, 1.09814, 1.02322, 0.958543, 0.947231}, "wacc in phi bins"};
+  AxisSpec axisPt{{0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.00, 1.10, 1.20, 1.30, 1.40, 1.50, 1.60, 1.70, 1.80, 1.90, 2.00, 2.20, 2.40, 2.60, 2.80, 3.00, 3.50, 4.00, 4.50, 5.00, 5.50, 6.00, 7.00, 8.00, 9.00, 10.0}, "pt(GeV)"};
+  AxisSpec axisMultiplicity{{0, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90}, "Centrality (%)"};
+  AxisSpec axisOmegaminusMass{{1.63, 1.635, 1.64, 1.645, 1.65, 1.655, 1.66, 1.665, 1.67, 1.675, 1.68, 1.685, 1.69, 1.695, 1.7, 1.705, 1.71}, "Mass(GeV)"};
+  AxisSpec axisXiminusMass{{1.3, 1.305, 1.31, 1.315, 1.32, 1.325, 1.33, 1.335, 1.34, 1.345, 1.35, 1.355, 1.36, 1.365, 1.37}, "Mass(GeV)"};
 
-  Configurable<bool> checkDauTPC{ "checkDauTPC", false, "check if daughter tracks have TPC match" };
-  Configurable<float> Casc_rapidity{ "Casc_rapidity", 0.5, "rapidity" };
-  Configurable<float> NSigmaCascPion{ "NSigmaCascPion", 6, "NSigmaCascPion" };
-  Configurable<float> NSigmaCascProton{ "NSigmaCascProton", 6, "NSigmaCascProton" };
-  Configurable<float> NSigmaCascKaon{ "NSigmaCascKaon", 6, "NSigmaCascKaon" };
+  Configurable<bool> checkDauTPC{"checkDauTPC", false, "check if daughter tracks have TPC match"};
+  Configurable<float> Casc_rapidity{"Casc_rapidity", 0.5, "rapidity"};
+  Configurable<float> NSigmaCascPion{"NSigmaCascPion", 6, "NSigmaCascPion"};
+  Configurable<float> NSigmaCascProton{"NSigmaCascProton", 6, "NSigmaCascProton"};
+  Configurable<float> NSigmaCascKaon{"NSigmaCascKaon", 6, "NSigmaCascKaon"};
 
   // AxisSpec axisC22{{0,0.02}, "C_2{2}"};
 
@@ -95,11 +95,11 @@ struct FlowGFWPbPb {
 
   // Connect to ccdb
   Service<ccdb::BasicCCDBManager> ccdb;
-  Configurable<int64_t> nolaterthan{ "ccdb-no-later-than", std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count(), "latest acceptable timestamp of creation for the object" };
-  Configurable<std::string> url{ "ccdb-url", "http://ccdb-test.cern.ch:8080", "url of the ccdb repository" };
+  Configurable<int64_t> nolaterthan{"ccdb-no-later-than", std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count(), "latest acceptable timestamp of creation for the object"};
+  Configurable<std::string> url{"ccdb-url", "http://ccdb-test.cern.ch:8080", "url of the ccdb repository"};
 
   // Define output
-  HistogramRegistry registry{ "registry" };
+  HistogramRegistry registry{"registry"};
 
   // define global variables
   GFW* fGFW = new GFW(); // GFW class used from main src
@@ -163,22 +163,22 @@ struct FlowGFWPbPb {
     ccdb->setCreatedNotAfter(nolaterthan.value);
 
     // Add some output objects to the histogram registry
-    registry.add("hPhi", "", { HistType::kTH1D, { axisPhi } });
-    registry.add("hEta", "", { HistType::kTH1D, { axisEta } });
-    registry.add("hEtaPhi", "", { HistType::kTH2D, { axisEta, axisPhi } });
-    registry.add("hVtxZ", "", { HistType::kTH1D, { axisVertex } });
-    registry.add("hMult", "", { HistType::kTH1D, { { 3000, 0.5, 3000.5 } } });
-    registry.add("hCent", "", { HistType::kTH1D, { { 90, 0, 90 } } });
-    registry.add("hPt", "", { HistType::kTH1D, { axisPt } });
+    registry.add("hPhi", "", {HistType::kTH1D, {axisPhi}});
+    registry.add("hEta", "", {HistType::kTH1D, {axisEta}});
+    registry.add("hEtaPhi", "", {HistType::kTH2D, {axisEta, axisPhi}});
+    registry.add("hVtxZ", "", {HistType::kTH1D, {axisVertex}});
+    registry.add("hMult", "", {HistType::kTH1D, {{3000, 0.5, 3000.5}}});
+    registry.add("hCent", "", {HistType::kTH1D, {{90, 0, 90}}});
+    registry.add("hPt", "", {HistType::kTH1D, {axisPt}});
     // cumulant of flow
-    registry.add("c22", ";Centrality  (%) ; C_{2}{2}", { HistType::kTProfile, { axisMultiplicity } });
-    registry.add("c24", ";Centrality  (%) ; C_{2}{4}", { HistType::kTProfile, { axisMultiplicity } });
+    registry.add("c22", ";Centrality  (%) ; C_{2}{2}", {HistType::kTProfile, {axisMultiplicity}});
+    registry.add("c24", ";Centrality  (%) ; C_{2}{4}", {HistType::kTProfile, {axisMultiplicity}});
     // pt-diff cumulant of flow
-    registry.add("Xic22dpt", ";pt ; C_{2}{2} ", { HistType::kTProfile2D, { axisPt, axisXiminusMass } });
-    registry.add("Omegac22dpt", ";pt ; C_{2}{2} ", { HistType::kTProfile2D, { axisPt, axisOmegaminusMass } });
+    registry.add("Xic22dpt", ";pt ; C_{2}{2} ", {HistType::kTProfile2D, {axisPt, axisXiminusMass}});
+    registry.add("Omegac22dpt", ";pt ; C_{2}{2} ", {HistType::kTProfile2D, {axisPt, axisOmegaminusMass}});
     // InvMass(GeV) of casc
-    registry.add("InvMassOmegaMinus", "", { HistType::kTH3D, { axisPt, axisOmegaminusMass, axisEta } });
-    registry.add("InvMassXiMinus", "", { HistType::kTH3D, { axisPt, axisXiminusMass, axisEta } });
+    registry.add("InvMassOmegaMinus", "", {HistType::kTH3D, {axisPt, axisOmegaminusMass, axisEta}});
+    registry.add("InvMassXiMinus", "", {HistType::kTH3D, {axisPt, axisXiminusMass, axisEta}});
 
     fGFW->AddRegion("full", -0.8, 0.8, 1, 1); // ("name", etamin, etamax, ptbinnum, bitmask)eta region -0.8 to 0.8
     // with (-0.5, 0.5) eta gap
@@ -429,6 +429,5 @@ struct FlowGFWPbPb {
 WorkflowSpec defineDataProcessing(ConfigContext const& cfgc)
 {
   return WorkflowSpec{
-    adaptAnalysisTask<FlowGFWPbPb>(cfgc)
-  };
+    adaptAnalysisTask<FlowGFWPbPb>(cfgc)};
 }
