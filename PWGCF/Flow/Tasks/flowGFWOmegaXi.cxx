@@ -60,7 +60,7 @@ struct FlowGFWOmegaXi {
   O2_DEFINE_CONFIGURABLE(cfgNbootstrap, int, 10, "Number of subsamples")
   O2_DEFINE_CONFIGURABLE(cfgEfficiency, std::string, "", "CCDB path to efficiency object")
   O2_DEFINE_CONFIGURABLE(cfgAcceptance, std::string, "", "CCDB path to acceptance object")
-  //topological cut for cascade
+  // topological cut for cascade
   O2_DEFINE_CONFIGURABLE(cfgcasc_radius, float, 0.5f, "minimum decay radius")
   O2_DEFINE_CONFIGURABLE(cfgcasc_cospa, float, 0.998f, "minimum cosine of pointing angle")
   O2_DEFINE_CONFIGURABLE(cfgcasc_dcav0topv, float, 0.01f, "minimum daughter DCA to PV")
@@ -68,7 +68,7 @@ struct FlowGFWOmegaXi {
   O2_DEFINE_CONFIGURABLE(cfgcasc_dcacascdau, float, 0.3f, "maximum DCA among cascade daughters")
   O2_DEFINE_CONFIGURABLE(cfgcasc_dcav0dau, float, 1.0f, "maximum DCA among V0 daughters")
   O2_DEFINE_CONFIGURABLE(cfgcasc_mlamdawindow, float, 0.04f, "Invariant mass window of lamda")
-  //track quality and type selections
+  // track quality and type selections
   O2_DEFINE_CONFIGURABLE(cfgtpcclusters, int, 70, "minimum number of TPC clusters requirement")
   O2_DEFINE_CONFIGURABLE(cfgitsclusters, int, 1, "minimum number of ITS clusters requirement")
 
@@ -209,7 +209,7 @@ struct FlowGFWOmegaXi {
   }
 
   template <char... chars>
-  void FillProfile(const GFW::CorrConfig& corrconf, const ConstStr<chars...>& tarName, const double& cent)
+  void FillProfile(const GFW::CorrConftopological cutig& corrconf, const ConstStr<chars...>& tarName, const double& cent)
   {
     float dnx = 0;
     float val = 0;
@@ -398,10 +398,10 @@ struct FlowGFWOmegaXi {
       } else if (casc.sign() < 0 && TMath::Abs(casc.yXi()) < cfgCasc_rapidity && TMath::Abs(bachelor.tpcNSigmaPi()) < cfgNSigmaCascPion && TMath::Abs(posdau.tpcNSigmaPr()) < cfgNSigmaCascProton && TMath::Abs(negdau.tpcNSigmaPi()) < cfgNSigmaCascPion) {
         registry.fill(HIST("InvMassXiMinus_all"), casc.pt(), casc.mXi(), casc.eta(), cent);
         partical = 3312;
-      } else{
+      } else {
         continue;
       }
-      //topological cut
+      // topological cut
       if (casc.cascradius() < cfgcasc_radius)
         continue;
       if (casc.casccosPA(collision.posX(), collision.posY(), collision.posZ()) < cfgcasc_cospa)
@@ -416,7 +416,7 @@ struct FlowGFWOmegaXi {
         continue;
       if (TMath::Abs(casc.mLambda() - 1.115683) > cfgcasc_mlamdawindow)
         continue;
-      //track quality check
+      // track quality check
       if (bachelor.tpcNClsFound() < cfgtpcclusters)
         continue;
       if (posdau.tpcNClsFound() < cfgtpcclusters)
