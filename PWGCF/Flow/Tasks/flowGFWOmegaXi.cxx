@@ -105,8 +105,8 @@ struct FlowGFWOmegaXi {
   Configurable<float> cfgNSigmaCascPion{"NSigmaCascPion", 3, "NSigmaCascPion"};
   Configurable<float> cfgNSigmaCascProton{"NSigmaCascProton", 3, "NSigmaCascProton"};
   Configurable<float> cfgNSigmaCascKaon{"NSigmaCascKaon", 3, "NSigmaCascKaon"};
-  Configurable<std::vector<std::string>> cfgAcceptancePath{"cfgAcceptance", std::vector<std::string> {"PathtoRef"}, "CCDB path to acceptance object"};
-  Configurable<std::vector<std::string>> cfgEfficiencyPath{"cfgEfficiency", std::vector<std::string> {"PathtoRef"}, "CCDB path to efficiency object"};
+  Configurable<std::vector<std::string>> cfgAcceptancePath{"cfgAcceptance", std::vector<std::string>{"PathtoRef"}, "CCDB path to acceptance object"};
+  Configurable<std::vector<std::string>> cfgEfficiencyPath{"cfgEfficiency", std::vector<std::string>{"PathtoRef"}, "CCDB path to efficiency object"};
 
   Filter collisionFilter = nabs(aod::collision::posZ) < cfgCutVertex;
   Filter trackFilter = (nabs(aod::track::eta) < cfgCutEta) && (aod::track::pt > cfgCutPtPOIMin) && (aod::track::pt < cfgCutPtPOIMax) && ((requireGlobalTrackInFilter()) || (aod::track::isGlobalTrackSDD == (uint8_t) true)) && (aod::track::tpcChi2NCl < cfgCutChi2prTPCcls);
@@ -136,7 +136,6 @@ struct FlowGFWOmegaXi {
   TF1* fT0AV0AMean = nullptr;
   TF1* fT0AV0ASigma = nullptr;
 
-
   using TracksPID = soa::Join<aod::pidTPCFullPi, aod::pidTOFFullPi, aod::pidTPCFullKa, aod::pidTPCFullPr>;
   using aodTracks = soa::Filtered<soa::Join<aod::Tracks, aod::TrackSelection, aod::TracksExtra, TracksPID>>; // tracks filter
   using aodCollisions = soa::Filtered<soa::Join<aod::Collisions, aod::EvSels, aod::CentFT0Cs, aod::Mults>>;  // collisions filter
@@ -161,7 +160,7 @@ struct FlowGFWOmegaXi {
   int nPhiBins = 60;
   TAxis* fPhiAxis = new TAxis(nPhiBins, 0, constants::math::TwoPI);
 
-  //int nOmegaMassBins = cfgOmegaMassbins;
+  // int nOmegaMassBins = cfgOmegaMassbins;
   TAxis* fOmegaMass = new TAxis(cfgOmegaMassbins, 1.63, 1.71);
 
   int nXiMassBins = cfgXiMassbins;
@@ -439,7 +438,7 @@ struct FlowGFWOmegaXi {
     int CandNum_all[4] = {0, 0, 0, 0};
     int CandNum[4] = {0, 0, 0, 0};
     for (int i = 0; i < 4; i++) {
-      registry.fill(HIST("hEventCount"), 0.5, i+0.5);
+      registry.fill(HIST("hEventCount"), 0.5, i + 0.5);
     }
     if (Ntot < 1)
       return;
@@ -456,7 +455,7 @@ struct FlowGFWOmegaXi {
     registry.fill(HIST("hMult"), Ntot);
     registry.fill(HIST("hCent"), collision.centFT0C());
     for (int i = 0; i < 4; i++) {
-      registry.fill(HIST("hEventCount"), 1.5, i+0.5);
+      registry.fill(HIST("hEventCount"), 1.5, i + 0.5);
     }
 
     float weff = 1;
@@ -465,7 +464,7 @@ struct FlowGFWOmegaXi {
     for (auto& track : tracks) {
       if (!setCurrentParticleWeights(weff, wacc, track, vtxz, 0))
         continue;
-      //int phibin = fPhiAxis->FindBin(track.phi()) - 1;
+      // int phibin = fPhiAxis->FindBin(track.phi()) - 1;
       registry.fill(HIST("hPhi"), track.phi());
       registry.fill(HIST("hEta"), track.eta());
       registry.fill(HIST("hEtaPhiVtxzREF"), track.eta(), track.phi(), vtxz);
@@ -600,10 +599,10 @@ struct FlowGFWOmegaXi {
     }
     for (int i = 0; i < 4; i++) {
       if (CandNum_all[i] > 1) {
-        registry.fill(HIST("hEventCount"), 2.5, i+0.5);
+        registry.fill(HIST("hEventCount"), 2.5, i + 0.5);
       }
       if (CandNum[i] > 1) {
-        registry.fill(HIST("hEventCount"), 3.5, i+0.5);
+        registry.fill(HIST("hEventCount"), 3.5, i + 0.5);
       }
     }
     // Filling cumulant with ROOT TProfile and loop for all ptBins
