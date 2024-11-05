@@ -319,7 +319,6 @@ struct FlowGFWOmegaXi {
       fWeightsOmega->SetPtBins(nPtBins, &(axisPt.binEdges)[0]);
       fWeightsOmega->Init(true, false);
     }
-
   }
 
   template <char... chars>
