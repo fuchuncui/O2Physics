@@ -187,7 +187,6 @@ struct FlowEfficiencyCasc {
     return true;
   }
 
-
   void processRec(MyCollisions::iterator const& collision, V0MCCandidates const& V0s, CascMCCandidates const& Cascades, DaughterTracks const&, soa::Join<aod::CascMCCores, aod::CascMCCollRefs> const&, soa::Join<aod::V0MCCores, aod::V0MCCollRefs> const&)
   {
     registry.fill(HIST("eventCounter"), 0.5);
