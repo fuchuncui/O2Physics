@@ -608,8 +608,8 @@ struct FlowGfwOmegaXi {
   {
     if (correctionsLoaded)
       return;
-    int nspecies = 5
-    if (cfgAcceptance.size() == nspecies) {
+    int nspecies = 5 if (cfgAcceptance.size() == nspecies)
+    {
       for (int i = 0; i <= nspecies - 1; i++) {
         mAcceptance.push_back(ccdb->getForTimeStamp<GFWWeights>(cfgAcceptance[i], timestamp));
       }
@@ -741,7 +741,7 @@ struct FlowGfwOmegaXi {
     const auto cent = collision.centFT0C();
     if (!collision.sel8())
       return;
-    if (eventSelected(collision,/* tracks.size(),*/ cent))
+    if (eventSelected(collision, /* tracks.size(),*/ cent))
       return;
     TH1D* hLocalDensity = new TH1D("hphi", "hphi", 400, -constants::math::TwoPI, constants::math::TwoPI);
     auto bc = collision.bc_as<aod::BCsWithTimestamps>();
