@@ -894,7 +894,7 @@ struct FlowGfwOmegaXi {
           setCurrentLocalDensityWeights(wloc, v0, density, 2);
           if (cfgOutputLocDenWeights)
             registry.fill(HIST("MC/densityMCRecLambda"), v0.pt(), nch, density, v0.mLambda());
-      }
+        }
         candNum[1] = candNum[1] + 1;
         registry.fill(HIST("InvMassLambda"), v0.pt(), v0.mLambda(), v0.eta(), cent);
         registry.fill(HIST("hEtaPhiVtxzPOILambda"), v0.phi(), v0.eta(), vtxz, wacc);
