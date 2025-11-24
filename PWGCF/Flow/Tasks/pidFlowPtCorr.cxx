@@ -713,7 +713,6 @@ struct PidFlowPtCorr {
                       nchDiff);
       }
     }
-
   }
   PROCESS_SWITCH(PidFlowPtCorr, processData, "", true);
 };
