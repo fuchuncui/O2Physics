@@ -1042,7 +1042,7 @@ struct FlowGfwOmegaXi {
     return true;
   }
 
-  void processData(AodCollisions::iterator const& collision, aod::BCsWithTimestamps const&, AodTracks const& tracks, soa::Join<aod::CascDataExt, aod::CascTOFNSigmas> const& Cascades, soa::Join<aod::V0Datas, aod::V0TOFNSigmas>  const& V0s, DaughterTracks const&)
+  void processData(AodCollisions::iterator const& collision, aod::BCsWithTimestamps const&, AodTracks const& tracks, soa::Join<aod::CascDataExt, aod::CascTOFNSigmas> const& Cascades, soa::Join<aod::V0Datas, aod::V0TOFNSigmas> const& V0s, DaughterTracks const&)
   {
     o2::aod::ITSResponse itsResponse;
     int nTot = tracks.size();
