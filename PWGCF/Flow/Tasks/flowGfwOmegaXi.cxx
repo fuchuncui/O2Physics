@@ -831,7 +831,7 @@ struct FlowGfwOmegaXi {
       return;
     val = fGFW->Calculate(corrconf, ptbin - 1, kFALSE).real() / dnx;
     // if (std::fabs(val) < 1) {
-      registry.fill(tarName, fpt->GetBinCenter(ptbin), cent, val, dnx);
+    registry.fill(tarName, fpt->GetBinCenter(ptbin), cent, val, dnx);
     // }
     return;
   }
@@ -876,7 +876,7 @@ struct FlowGfwOmegaXi {
         continue;
       val = fGFW->Calculate(corrconf, (ptbin - 1) + ((massbin - 1) * nptbins), kFALSE).real() / dnx;
       // if (std::fabs(val) < 1) {
-        registry.fill(tarName, fpt->GetBinCenter(ptbin), fMass->GetBinCenter(massbin), cent, val, dnx);
+      registry.fill(tarName, fpt->GetBinCenter(ptbin), fMass->GetBinCenter(massbin), cent, val, dnx);
       // }
     }
     return;
@@ -1139,7 +1139,7 @@ struct FlowGfwOmegaXi {
       registry.fill(HIST("hPt"), track.pt());
       int ptbin = fPtAxis->FindBin(track.pt()) - 1;
       if ((track.pt() > trkQualityOpts.cfgCutPtMin.value) && (track.pt() < trkQualityOpts.cfgCutPtMax.value)) {
-          fGFW->Fill(track.eta(), ptbin, track.phi(), wacc * weff, 1); //(eta, ptbin, phi, wacc*weff, bitmask)
+        fGFW->Fill(track.eta(), ptbin, track.phi(), wacc * weff, 1); //(eta, ptbin, phi, wacc*weff, bitmask)
       }
       if ((track.pt() > trkQualityOpts.cfgCutPtPOIMin.value) && (track.pt() < trkQualityOpts.cfgCutPtPOIMax.value)) {
         fGFW->Fill(track.eta(), ptbin, track.phi(), wacc * weff, 32);
