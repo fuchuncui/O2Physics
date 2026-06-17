@@ -63,7 +63,7 @@ using namespace constants::math;
 // define the filtered collisions and tracks
 #define O2_DEFINE_CONFIGURABLE(NAME, TYPE, DEFAULT, HELP) Configurable<TYPE> NAME{#NAME, DEFAULT, HELP};
 
-struct DiHadronCor {
+struct CascDiHadronCor {
   Service<ccdb::BasicCCDBManager> ccdb;
 
   O2_DEFINE_CONFIGURABLE(cfgCutVtxZ, float, 10.0f, "Accepted z-vertex range")
@@ -192,7 +192,7 @@ struct DiHadronCor {
 
   // make the filters and cuts.
   Filter collisionFilter = (nabs(aod::collision::posZ) < cfgCutVtxZ);
-  Filter trackFilter = (nabs(aod::track::eta) < cfgCutEta) && (aod::track::pt > cfgCutPtMin) && (aod::track::pt < cfgCutPtMax) && ((requireGlobalTrackInFilter()) || (aod::track::isGlobalTrackSDD == (uint8_t) true)) && (aod::track::tpcChi2NCl < cfgCutChi2prTPCcls) && (nabs(aod::track::dcaZ) < cfgCutDCAz);
+  Filter trackFilter = (nabs(aod::track::eta) < cfgCutEta) && (aod::track::pt > cfgCutPtMin) && (aod::track::pt < cfgCutPtMax) && ((requireGlobalTrackInFilter()) || (aod::track::isGlobalTrackSDD == (uint8_t)true)) && (aod::track::tpcChi2NCl < cfgCutChi2prTPCcls) && (nabs(aod::track::dcaZ) < cfgCutDCAz);
   using FilteredCollisions = soa::Filtered<soa::Join<aod::Collisions, aod::EvSel, aod::CentFT0Cs, aod::CentFT0CVariant1s, aod::CentFT0Ms, aod::CentFV0As, aod::Mults>>;
   using FilteredTracks = soa::Filtered<soa::Join<aod::Tracks, aod::TrackSelection, aod::TracksExtra, aod::TracksDCA>>;
   using FilteredTracksWithMCLabels = soa::Filtered<soa::Join<aod::Tracks, aod::TrackSelection, aod::TracksExtra, aod::TracksDCA, aod::McTrackLabels>>;
@@ -477,10 +477,8 @@ struct DiHadronCor {
     if (negdau.tpcNClsCrossedRows() <= trkQualityOpts.cfgTPCCrossedRows.value)
       return false;
 
-    if (cfgOutputXi)
-    {
-      if (casc.sign() < 0)
-      {
+    if (cfgOutputXi) {
+      if (casc.sign() < 0) {
         if (std::fabs(bachelor.tpcNSigmaPi()) > cfgNSigma[0])
           return false;
         if (std::fabs(posdau.tpcNSigmaPr()) > cfgNSigma[1])
@@ -491,9 +489,7 @@ struct DiHadronCor {
           return false;
         if (std::fabs(casc.dcapostopv()) > cascBuilderOpts.cfgcasc_dcaLapitopv.value)
           return false;
-      }
-      else if (casc.sign() > 0)
-      {
+      } else if (casc.sign() > 0) {
         if (std::fabs(bachelor.tpcNSigmaPi()) > cfgNSigma[0])
           return false;
         if (std::fabs(negdau.tpcNSigmaPr()) > cfgNSigma[1])
@@ -521,11 +517,8 @@ struct DiHadronCor {
         return false;
       if (std::fabs(casc.mLambda() - o2::constants::physics::MassLambda0) > cascBuilderOpts.cfgcasc_mlambdawindow.value)
         return false;
-    }
-    if (cfgOutputOmega)
-    {
-      if (casc.sign() < 0)
-      {
+    } if (cfgOutputOmega) {
+      if (casc.sign() < 0) {
         if (std::fabs(bachelor.tpcNSigmaKa()) > cfgNSigma[2])
           return false;
         if (std::fabs(posdau.tpcNSigmaPr()) > cfgNSigma[1])
@@ -536,9 +529,7 @@ struct DiHadronCor {
           return false;
         if (std::fabs(casc.dcapostopv()) > cascBuilderOpts.cfgcasc_dcaLapitopv.value)
           return false;
-      }
-      else if (casc.sign() > 0)
-      {
+      } else if (casc.sign() > 0) {
         if (std::fabs(bachelor.tpcNSigmaKa()) > cfgNSigma[2])
           return false;
         if (std::fabs(negdau.tpcNSigmaPr()) > cfgNSigma[1])
@@ -869,7 +860,7 @@ struct DiHadronCor {
   }
 
   template <CorrelationContainer::CFStep step, typename TTracks, typename TTracksAssoc>
-  void fillCorrelationsExcludeSoloTracks(TTracks tracks1, TTracksAssoc tracks2, float posZ, int magneticField, float cent, float eventWeight, bool ischarged = true) // function to fill the Output functions (sparse) and the delta eta and delta phi histograms
+  void fillCorrelationsExcludeSoloTracks(TTracks tracks1, TTracksAssoc tracks2, float posZ, int magneticField, float cent, float eventWeight) // function to fill the Output functions (sparse) and the delta eta and delta phi histograms
   {
     std::vector<int64_t> tracksSkipIndices;
     std::vector<int64_t> tracks2SkipIndices;
@@ -890,11 +881,9 @@ struct DiHadronCor {
       }
     }
 
-    if (ischarged) {
-      if (!cfgCentTableUnavailable)
-        registry.fill(HIST("Centrality_used"), cent);
-      registry.fill(HIST("Nch_used"), tracks1.size());
-    }
+    if (!cfgCentTableUnavailable)
+      registry.fill(HIST("Centrality_used"), cent);
+    registry.fill(HIST("Nch_used"), tracks1.size());
 
     int fSampleIndex = gRandom->Uniform(0, cfgSampleSize);
 
@@ -908,15 +897,13 @@ struct DiHadronCor {
       if (!getEfficiencyCorrection(triggerWeight, track1.eta(), track1.pt(), posZ))
         continue;
 
-      if (ischarged) {
-        registry.fill(HIST("Nch_final_pt"), track1.pt());
+      registry.fill(HIST("Nch_final_pt"), track1.pt());
 
-        if (std::find(tracksSkipIndices.begin(), tracksSkipIndices.end(), track1.globalIndex()) != tracksSkipIndices.end()) {
-          registry.fill(HIST("Solo_tracks_trigger"), track1.pt());
-          continue; // Skip the track1 if it is alone in pt bin
-        }
-        registry.fill(HIST("Trig_hist"), fSampleIndex, posZ, track1.pt(), eventWeight * triggerWeight);
+      if (std::find(tracksSkipIndices.begin(), tracksSkipIndices.end(), track1.globalIndex()) != tracksSkipIndices.end()) {
+        registry.fill(HIST("Solo_tracks_trigger"), track1.pt());
+        continue; // Skip the track1 if it is alone in pt bin
       }
+      registry.fill(HIST("Trig_hist"), fSampleIndex, posZ, track1.pt(), eventWeight * triggerWeight);
 
       for (auto const& track2 : tracks2) {
 
@@ -929,7 +916,7 @@ struct DiHadronCor {
           continue; // For pt-differential correlations, skip if the trigger and associate are the same track
         if (cfgUsePtOrder && track1.pt() <= track2.pt())
           continue;                  // Without pt-differential correlations, skip if the trigger pt is less than the associate pt
-        if (!cfgSingleSoloPtTrack && ischarged) { // avoid skipping the second track if we only want one
+        if (!cfgSingleSoloPtTrack) { // avoid skipping the second track if we only want one
           if (std::find(tracks2SkipIndices.begin(), tracks2SkipIndices.end(), track2.globalIndex()) != tracks2SkipIndices.end()) {
             registry.fill(HIST("Solo_tracks_assoc"), track2.pt());
             continue; // Skip the track2 if it is alone in pt bin
@@ -963,8 +950,7 @@ struct DiHadronCor {
 
         // fill the right sparse and histograms
         same->getPairHist()->Fill(step, fSampleIndex, posZ, track1.pt(), track2.pt(), deltaPhi, deltaEta, eventWeight * triggerWeight * associatedWeight);
-        if (ischarged)
-          registry.fill(HIST("deltaEta_deltaPhi_same"), deltaPhi, deltaEta, eventWeight * triggerWeight * associatedWeight);
+        registry.fill(HIST("deltaEta_deltaPhi_same"), deltaPhi, deltaEta, eventWeight * triggerWeight * associatedWeight);
       }
     }
   }
@@ -1196,7 +1182,7 @@ struct DiHadronCor {
       fillCorrelationsExcludeSoloTracks<CorrelationContainer::kCFStepReconstructed>(tracks, tracks, collision.posZ(), getMagneticField(bc.timestamp()), cent, weightCent);
     }
   }
-  PROCESS_SWITCH(DiHadronCor, processSame, "Process same event", true);
+  PROCESS_SWITCH(CascDiHadronCor, processSame, "Process same event", true);
 
   // the process for filling the mixed events
   void processMixed(FilteredCollisions const& collisions, FilteredTracks const& tracks, aod::BCsWithTimestamps const&)
@@ -1258,7 +1244,7 @@ struct DiHadronCor {
     }
   }
 
-  PROCESS_SWITCH(DiHadronCor, processMixed, "Process mixed events", true);
+  PROCESS_SWITCH(CascDiHadronCor, processMixed, "Process mixed events", true);
 
   void processMixedCasc(FilteredCollisions const& collisions, FilteredTracks const& tracks, aod::CascDatas const& cascades, aod::BCsWithTimestamps const&)
   {
@@ -1318,7 +1304,7 @@ struct DiHadronCor {
     }
   }
 
-  PROCESS_SWITCH(DiHadronCor, processMixedCasc, "Process mixed events", true);
+  PROCESS_SWITCH(CascDiHadronCor, processMixedCasc, "Process mixed events", true);
 
 
   int getSpecies(int pdgCode)
@@ -1370,7 +1356,7 @@ struct DiHadronCor {
       }
     }
   }
-  PROCESS_SWITCH(DiHadronCor, processMCEfficiency, "MC: Extract efficiencies", false);
+  PROCESS_SWITCH(CascDiHadronCor, processMCEfficiency, "MC: Extract efficiencies", false);
 
   void processMCSame(FilteredMcCollisions::iterator const& mcCollision, FilteredMcParticles const& mcParticles, SmallGroupMcCollisions const& collisions)
   {
@@ -1418,7 +1404,7 @@ struct DiHadronCor {
     same->fillEvent(mcParticles.size(), CorrelationContainer::kCFStepTrackedOnlyPrim);
     fillMCCorrelations<CorrelationContainer::kCFStepTrackedOnlyPrim>(mcParticles, mcParticles, mcCollision.posZ(), SameEvent, 1.0f);
   }
-  PROCESS_SWITCH(DiHadronCor, processMCSame, "Process MC same event", false);
+  PROCESS_SWITCH(CascDiHadronCor, processMCSame, "Process MC same event", false);
 
   void processMCMixed(FilteredMcCollisions const& mcCollisions, FilteredMcParticles const& mcParticles, SmallGroupMcCollisions const& collisions)
   {
@@ -1474,8 +1460,8 @@ struct DiHadronCor {
       fillMCCorrelations<CorrelationContainer::kCFStepTrackedOnlyPrim>(tracks1, tracks2, collision1.posZ(), MixedEvent, eventWeight);
     }
   }
-  PROCESS_SWITCH(DiHadronCor, processMCMixed, "Process MC mixed events", false);
-    void processOntheflySame(aod::McCollisions::iterator const& mcCollision, aod::McParticles const& mcParticles)
+  PROCESS_SWITCH(CascDiHadronCor, processMCMixed, "Process MC mixed events", false);
+  void processOntheflySame(aod::McCollisions::iterator const& mcCollision, aod::McParticles const& mcParticles)
   {
     if (cfgVerbosity) {
       LOGF(info, "processOntheflySame. MC collision: %d, particles: %d", mcCollision.globalIndex(), mcParticles.size());
@@ -1504,7 +1490,7 @@ struct DiHadronCor {
     same->fillEvent(mcParticles.size(), CorrelationContainer::kCFStepTrackedOnlyPrim);
     fillMCCorrelations<CorrelationContainer::kCFStepTrackedOnlyPrim>(mcParticles, mcParticles, mcCollision.posZ(), SameEvent, 1.0f);
   }
-  PROCESS_SWITCH(DiHadronCor, processOntheflySame, "Process on-the-fly same event", false);
+  PROCESS_SWITCH(CascDiHadronCor, processOntheflySame, "Process on-the-fly same event", false);
 
   void processOntheflyMixed(aod::McCollisions const& mcCollisions, aod::McParticles const& mcParticles)
   {
@@ -1541,12 +1527,11 @@ struct DiHadronCor {
       fillMCCorrelations<CorrelationContainer::kCFStepTrackedOnlyPrim>(tracks1, tracks2, collision1.posZ(), MixedEvent, eventWeight);
     }
   }
-  PROCESS_SWITCH(DiHadronCor, processOntheflyMixed, "Process on-the-fly mixed events", false);
+  PROCESS_SWITCH(CascDiHadronCor, processOntheflyMixed, "Process on-the-fly mixed events", false);
 };
-
 WorkflowSpec defineDataProcessing(ConfigContext const& cfgc)
 {
   return WorkflowSpec{
-    adaptAnalysisTask<DiHadronCor>(cfgc),
+    adaptAnalysisTask<CascDiHadronCor>(cfgc),
   };
 }
