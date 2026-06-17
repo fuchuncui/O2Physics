@@ -63,7 +63,7 @@ using namespace constants::math;
 // define the filtered collisions and tracks
 #define O2_DEFINE_CONFIGURABLE(NAME, TYPE, DEFAULT, HELP) Configurable<TYPE> NAME{#NAME, DEFAULT, HELP};
 
-struct CascDiHadronCor {
+struct CascDiHadronCorr {
   Service<ccdb::BasicCCDBManager> ccdb;
 
   O2_DEFINE_CONFIGURABLE(cfgCutVtxZ, float, 10.0f, "Accepted z-vertex range")
@@ -517,7 +517,8 @@ struct CascDiHadronCor {
         return false;
       if (std::fabs(casc.mLambda() - o2::constants::physics::MassLambda0) > cascBuilderOpts.cfgcasc_mlambdawindow.value)
         return false;
-    } if (cfgOutputOmega) {
+    } 
+    if (cfgOutputOmega) {
       if (casc.sign() < 0) {
         if (std::fabs(bachelor.tpcNSigmaKa()) > cfgNSigma[2])
           return false;
@@ -1182,7 +1183,7 @@ struct CascDiHadronCor {
       fillCorrelationsExcludeSoloTracks<CorrelationContainer::kCFStepReconstructed>(tracks, tracks, collision.posZ(), getMagneticField(bc.timestamp()), cent, weightCent);
     }
   }
-  PROCESS_SWITCH(CascDiHadronCor, processSame, "Process same event", true);
+  PROCESS_SWITCH(CascDiHadronCorr, processSame, "Process same event", true);
 
   // the process for filling the mixed events
   void processMixed(FilteredCollisions const& collisions, FilteredTracks const& tracks, aod::BCsWithTimestamps const&)
@@ -1244,7 +1245,7 @@ struct CascDiHadronCor {
     }
   }
 
-  PROCESS_SWITCH(CascDiHadronCor, processMixed, "Process mixed events", true);
+  PROCESS_SWITCH(CascDiHadronCorr, processMixed, "Process mixed events", true);
 
   void processMixedCasc(FilteredCollisions const& collisions, FilteredTracks const& tracks, aod::CascDatas const& cascades, aod::BCsWithTimestamps const&)
   {
@@ -1304,8 +1305,7 @@ struct CascDiHadronCor {
     }
   }
 
-  PROCESS_SWITCH(CascDiHadronCor, processMixedCasc, "Process mixed events", true);
-
+  PROCESS_SWITCH(CascDiHadronCorr, processMixedCasc, "Process mixed events", true);
 
   int getSpecies(int pdgCode)
   {
@@ -1356,7 +1356,7 @@ struct CascDiHadronCor {
       }
     }
   }
-  PROCESS_SWITCH(CascDiHadronCor, processMCEfficiency, "MC: Extract efficiencies", false);
+  PROCESS_SWITCH(CascDiHadronCorr, processMCEfficiency, "MC: Extract efficiencies", false);
 
   void processMCSame(FilteredMcCollisions::iterator const& mcCollision, FilteredMcParticles const& mcParticles, SmallGroupMcCollisions const& collisions)
   {
@@ -1404,7 +1404,7 @@ struct CascDiHadronCor {
     same->fillEvent(mcParticles.size(), CorrelationContainer::kCFStepTrackedOnlyPrim);
     fillMCCorrelations<CorrelationContainer::kCFStepTrackedOnlyPrim>(mcParticles, mcParticles, mcCollision.posZ(), SameEvent, 1.0f);
   }
-  PROCESS_SWITCH(CascDiHadronCor, processMCSame, "Process MC same event", false);
+  PROCESS_SWITCH(CascDiHadronCorr, processMCSame, "Process MC same event", false);
 
   void processMCMixed(FilteredMcCollisions const& mcCollisions, FilteredMcParticles const& mcParticles, SmallGroupMcCollisions const& collisions)
   {
@@ -1460,7 +1460,7 @@ struct CascDiHadronCor {
       fillMCCorrelations<CorrelationContainer::kCFStepTrackedOnlyPrim>(tracks1, tracks2, collision1.posZ(), MixedEvent, eventWeight);
     }
   }
-  PROCESS_SWITCH(CascDiHadronCor, processMCMixed, "Process MC mixed events", false);
+  PROCESS_SWITCH(CascDiHadronCorr, processMCMixed, "Process MC mixed events", false);
   void processOntheflySame(aod::McCollisions::iterator const& mcCollision, aod::McParticles const& mcParticles)
   {
     if (cfgVerbosity) {
@@ -1490,7 +1490,7 @@ struct CascDiHadronCor {
     same->fillEvent(mcParticles.size(), CorrelationContainer::kCFStepTrackedOnlyPrim);
     fillMCCorrelations<CorrelationContainer::kCFStepTrackedOnlyPrim>(mcParticles, mcParticles, mcCollision.posZ(), SameEvent, 1.0f);
   }
-  PROCESS_SWITCH(CascDiHadronCor, processOntheflySame, "Process on-the-fly same event", false);
+  PROCESS_SWITCH(CascDiHadronCorr, processOntheflySame, "Process on-the-fly same event", false);
 
   void processOntheflyMixed(aod::McCollisions const& mcCollisions, aod::McParticles const& mcParticles)
   {
@@ -1527,11 +1527,11 @@ struct CascDiHadronCor {
       fillMCCorrelations<CorrelationContainer::kCFStepTrackedOnlyPrim>(tracks1, tracks2, collision1.posZ(), MixedEvent, eventWeight);
     }
   }
-  PROCESS_SWITCH(CascDiHadronCor, processOntheflyMixed, "Process on-the-fly mixed events", false);
+  PROCESS_SWITCH(CascDiHadronCorr, processOntheflyMixed, "Process on-the-fly mixed events", false);
 };
 WorkflowSpec defineDataProcessing(ConfigContext const& cfgc)
 {
   return WorkflowSpec{
-    adaptAnalysisTask<CascDiHadronCor>(cfgc),
+    adaptAnalysisTask<CascDiHadronCorr>(cfgc),
   };
 }
