@@ -517,7 +517,7 @@ struct CascDiHadronCorr {
         return false;
       if (std::fabs(casc.mLambda() - o2::constants::physics::MassLambda0) > cascBuilderOpts.cfgcasc_mlambdawindow.value)
         return false;
-    } 
+    }
     if (cfgOutputOmega) {
       if (casc.sign() < 0) {
         if (std::fabs(bachelor.tpcNSigmaKa()) > cfgNSigma[2])
