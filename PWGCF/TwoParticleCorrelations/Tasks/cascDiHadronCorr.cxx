@@ -778,7 +778,7 @@ struct CascDiHadronCorr {
     }
   }
 
-    template <CorrelationContainer::CFStep step, typename TTracks, typename TCollision>
+  template <CorrelationContainer::CFStep step, typename TTracks, typename TCollision>
   void fillCorrelationsCasc(TTracks tracks1, TCollision currentCollision, float posX, float posY, float posZ, int bin, float eventWeight) // function to fill the Output functions (sparse) and the delta eta and delta phi histograms (use buffer, only for mixevent)
   {
     float triggerWeight = 1.0f;
@@ -1489,15 +1489,15 @@ struct CascDiHadronCorr {
     if (!cfgCentTableUnavailable) {
       cent = getCentrality(collision);
     }
-    if (cfgUseAdditionalEventCut && !eventSelected(collision,tracks.size(), cent, false))
+    if (cfgUseAdditionalEventCut && !eventSelected(collision, tracks.size(), cent, false))
       return;
 
     if (!cfgSelCollByNch && !cfgCentTableUnavailable && (cent < cfgCutCentMin || cent >= cfgCutCentMax))
       return;
-    
+
     float weightCent = 1.0f;
     if (!cfgCentTableUnavailable)
-        getCentralityWeight(weightCent, cent);
+      getCentralityWeight(weightCent, cent);
 
     for (const auto& track : tracks) {
       if (!trackSelected(track))
@@ -1542,15 +1542,15 @@ struct CascDiHadronCorr {
     if (!cfgCentTableUnavailable) {
       cent = getCentrality(collision);
     }
-    if (cfgUseAdditionalEventCut && !eventSelected(collision,tracks.size(), cent, false))
+    if (cfgUseAdditionalEventCut && !eventSelected(collision, tracks.size(), cent, false))
       return;
 
     if (!cfgSelCollByNch && !cfgCentTableUnavailable && (cent < cfgCutCentMin || cent >= cfgCutCentMax))
       return;
-    
+
     float weightCent = 1.0f;
     if (!cfgCentTableUnavailable)
-        getCentralityWeight(weightCent, cent);
+      getCentralityWeight(weightCent, cent);
 
     for (const auto& track : tracks) {
       if (!trackSelected(track))
