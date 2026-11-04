@@ -610,7 +610,7 @@ struct CascDiHadronCorr {
       return false;
     if (negdau.tpcChi2NCl() >= trkQualityOpts.cfgCutChi2prTPCcls.value)
       return false;
-    
+
     if (cfgOutputCascQA) {
       registry.fill(HIST("QAhisto/hqaTPCNClsafter"), bachelor.tpcNClsFound());
       registry.fill(HIST("QAhisto/hqaTPCCrossedRowsafter"), bachelor.tpcNClsCrossedRows());
