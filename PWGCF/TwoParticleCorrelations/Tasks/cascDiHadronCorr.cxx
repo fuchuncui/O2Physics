@@ -406,8 +406,6 @@ struct CascDiHadronCorr {
       registry.add("MCGen", "MCGen", {HistType::kTH1D, {axisPtEfficiency}});
       registry.add("MCRec", "MCRec", {HistType::kTH1D, {axisPtEfficiency}});
       registry.add("MCRecPri", "MCRecPri", {HistType::kTH1D, {axisPtEfficiency}});
-      registry.add("phiGenVsRec", "bin", {HistType::kTH2D, {{1000, 0.0, constants::math::TwoPI}, {1000, 0.0, constants::math::TwoPI}}});
-      registry.add("deltaphi_MC", "bin", {HistType::kTH1D, {{1000, 0.0, constants::math::TwoPI}}});
     }
 
     if (cfgOutputCascQA) {
@@ -504,7 +502,7 @@ struct CascDiHadronCorr {
   }
 
   template <typename TCollision>
-  float getCentrality(const TCollision& collision)
+  float getCentrality(TCollision const& collision)
   {
     float cent;
     switch (cfgCentEstimator) {
@@ -1625,7 +1623,7 @@ struct CascDiHadronCorr {
 
     using MixedBinning = FlexibleBinningPolicy<std::tuple<decltype(getTracksSize)>, aod::collision::PosZ, decltype(getTracksSize)>;
 
-    MixedBinning binningOnVtxAndMult{{getTracksSize}, {axisVtxMix, axisMultMix}, true};
+    MixedBinning binningOnVtxAndMult{{getTracksSize}, {axisVtxMix, axisMultMix}};
 
     auto tracksTuple = std::make_tuple(tracks, tracks);
     Pair<FilteredCollisions, FilteredTracks, FilteredTracks, MixedBinning> pairs{binningOnVtxAndMult, cfgMixEventNumMin, -1, collisions, tracksTuple, &cache}; // -1 is the number of the bin to skip
@@ -1686,7 +1684,7 @@ struct CascDiHadronCorr {
 
     using MixedBinning = FlexibleBinningPolicy<std::tuple<decltype(getTracksSize)>, aod::collision::PosZ, decltype(getTracksSize)>;
 
-    MixedBinning binningOnVtxAndMult{{getTracksSize}, {axisVtxMix, axisMultMix}, true};
+    MixedBinning binningOnVtxAndMult{{getTracksSize}, {axisVtxMix, axisMultMix}};
 
     auto tracksTuple = std::make_tuple(cascades, tracks);
     Pair<FilteredCollisions, aod::CascDatas, FilteredTracks, MixedBinning> pairs{binningOnVtxAndMult, cfgMixEventNumMin, -1, collisions, tracksTuple, &cache}; // -1 is the number of the bin to skip
@@ -1906,11 +1904,8 @@ struct CascDiHadronCorr {
           auto mcParticle = casc.mcParticle_as<FilteredMcParticles>();
           if (mcParticle.isPhysicalPrimary()) {
             registry.fill(HIST("MCEffeventcount"), 2.5);
-            if ((cfgOutputXi && getSpecies(mcParticle.pdgCode()) == getSpecies(PDG_t::kXiMinus)) || (cfgOutputOmega && getSpecies(mcParticle.pdgCode()) == getSpecies(PDG_t::kOmegaMinus))) {
+            if ((cfgOutputXi && getSpecies(mcParticle.pdgCode()) == getSpecies(PDG_t::kXiMinus)) || (cfgOutputOmega && getSpecies(mcParticle.pdgCode()) == getSpecies(PDG_t::kOmegaMinus)))
               registry.fill(HIST("MCRecPri"), mcParticle.pt());
-              registry.fill(HIST("phiGenVsRec"), mcParticle.phi(), casc.phi());
-              registry.fill(HIST("deltaphi_MC"), casc.phi() - mcParticle.phi());
-            }
             same->getTrackHistEfficiency()->Fill(CorrelationContainer::RecoPrimaries, mcParticle.eta(), mcParticle.pt(), getSpecies(mcParticle.pdgCode()), 0., mcCollision.posZ());
           }
           registry.fill(HIST("MCEffeventcount"), 3.5);
@@ -2033,7 +2028,7 @@ struct CascDiHadronCorr {
 
     using MixedBinning = FlexibleBinningPolicy<std::tuple<decltype(getTracksSize)>, o2::aod::mccollision::PosZ, decltype(getTracksSize)>;
 
-    MixedBinning binningOnVtxAndMult{{getTracksSize}, {axisVtxMix, axisMultMix}, true};
+    MixedBinning binningOnVtxAndMult{{getTracksSize}, {axisVtxMix, axisMultMix}};
 
     auto tracksTuple = std::make_tuple(mcParticles, mcParticles);
     Pair<FilteredMcCollisions, FilteredMcParticles, FilteredMcParticles, MixedBinning> pairs{binningOnVtxAndMult, cfgMixEventNumMin, -1, mcCollisions, tracksTuple, &cache}; // -1 is the number of the bin to skip
@@ -2089,7 +2084,7 @@ struct CascDiHadronCorr {
 
     using MixedBinning = FlexibleBinningPolicy<std::tuple<decltype(getTracksSize)>, o2::aod::mccollision::PosZ, decltype(getTracksSize)>;
 
-    MixedBinning binningOnVtxAndMult{{getTracksSize}, {axisVtxMix, axisMultMix}, true};
+    MixedBinning binningOnVtxAndMult{{getTracksSize}, {axisVtxMix, axisMultMix}};
 
     auto tracksTuple = std::make_tuple(mcParticles, mcParticles);
     Pair<FilteredMcCollisions, FilteredMcParticles, FilteredMcParticles, MixedBinning> pairs{binningOnVtxAndMult, cfgMixEventNumMin, -1, mcCollisions, tracksTuple, &cache}; // -1 is the number of the bin to skip
@@ -2176,7 +2171,7 @@ struct CascDiHadronCorr {
 
     using MixedBinning = FlexibleBinningPolicy<std::tuple<decltype(getTracksSize)>, o2::aod::mccollision::PosZ, decltype(getTracksSize)>;
 
-    MixedBinning binningOnVtxAndMult{{getTracksSize}, {axisVtxMix, axisMultMix}, true};
+    MixedBinning binningOnVtxAndMult{{getTracksSize}, {axisVtxMix, axisMultMix}};
 
     auto tracksTuple = std::make_tuple(mcParticles, mcParticles);
     Pair<aod::McCollisions, aod::McParticles, aod::McParticles, MixedBinning> pairs{binningOnVtxAndMult, cfgMixEventNumMin, -1, mcCollisions, tracksTuple, &cache}; // -1 is the number of the bin to skip
