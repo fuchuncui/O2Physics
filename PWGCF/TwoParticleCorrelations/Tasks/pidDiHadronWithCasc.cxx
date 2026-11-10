@@ -861,7 +861,7 @@ struct PidDiHadronWithCasc {
     return true;
   }
 
-    template <typename TTrackCasc>
+  template <typename TTrackCasc>
   bool cascSelected(const TTrackCasc& casc, float posX, float posY, float posZ, bool isSideband)
   {
     if (std::abs(casc.eta()) > cfgTrkSel.cfgGlobalEta.value) {
@@ -2075,7 +2075,7 @@ struct PidDiHadronWithCasc {
       if (cfgEvSel.cfgEvSelIsSideband.value && !haveCascSideband)
         return;
     }
-    
+
     float weightCent = 1.0f;
     if (!cfgEvSel.cfgCentTableUnavailable)
       getCentralityWeight(weightCent, cent);
